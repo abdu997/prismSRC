@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom';
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
@@ -10,9 +9,9 @@ import './scss/style.scss';
 import { Api } from './utilities/api';
 import UserContext from './utilities/context';
 
-import LoginPage from './components/LoginPage';
-import TradingView from './components/TradingView';
-import PortfolioView from './components/PortfolioView';
+import LoginPage from './components/';
+import TradingView from './components/';
+import PortfolioView from './components/';
 
 /**
  * Ensures a session exists before rendering the called component, if not, a
@@ -25,10 +24,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       session: {
-        session_loaded: true,
-        session_exists: true,
-        first_name: "john",
-        last_name: "doe"
+        session_loaded: false,
       }
     }
     this.getSession = this.getSession.bind(this);
@@ -40,26 +36,8 @@ class App extends React.Component {
    *
    */
   componentWillMount() {
-    // setInterval(this.getSession, 15 * 60 * 1000);
-    // this.getSession();
-    // this.getCSRF();
-  }
-
-  /**
-   * Makes an API call, recieves the CSRF token and defines the default
-   * X-CSRF-Token header for all following requests.
-   *
-   */
-  getCSRF(){
-    axios.get(Api()).then(
-      response => {
-        axios.defaults.headers.common['X-CSRF-Token'] = response.data[0].csrftoken;
-      }
-    ).catch(
-      error => {
-        console.error("Failed to obtain CSRF token:  " + error.message);
-      }
-    );
+    setInterval(this.getSession, 15 * 60 * 1000);
+    this.getSession();
   }
 
   /**
@@ -208,5 +186,3 @@ class App extends React.Component {
   }
 }
 export default App;
-
-ReactDOM.render(<App />, document.getElementById('root'));
